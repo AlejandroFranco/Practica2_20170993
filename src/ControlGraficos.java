@@ -82,13 +82,13 @@ public class ControlGraficos extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        proyectiles = cuphead.getProyectiles().clone();
-        System.out.println("qwertyuiop");
-        for (int i = 0; i < proyectiles.length; i++) {
-            if (proyectiles[i].isVisible()) {
-                proyectiles[i].mover();
+        for (int i = 0; i < cuphead.getDisparos(); i++) {
+            if (cuphead.getProyectiles()[i].isVisible()) {
+                cuphead.getProyectiles()[i].mover();
             } else {
-                proyectiles[i] = null;
+                cuphead.getProyectiles()[i] = null;
+                int disparos = cuphead.getDisparos();
+                cuphead.setDisparos(disparos - 1);
             }
         }
         repaint();
@@ -100,8 +100,8 @@ public class ControlGraficos extends JPanel implements ActionListener {
         g.fillRect(0, 0, 500, 500);
         cuphead.dibujarCuphead(g);
         if (dibujarProyectil) {
-            for (int i = 0; i < cuphead.getProyectiles().length; i++) {
-                t.start();
+            t.start();
+            for (int i = 0; i < cuphead.getDisparos(); i++) {
                 cuphead.getProyectiles()[i].dibujarProyectil(g, posXPry, posYPry);
             }
         }
