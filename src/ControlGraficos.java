@@ -20,7 +20,8 @@ public class ControlGraficos extends JPanel implements ActionListener {
     private int posXPry;
     private int posYPry;
     private Timer t;
-
+    private int indiceVacio;
+    private Proyectil[] proyectiles = new Proyectil[200];
 
     public ControlGraficos() {
         JPanel p = new JPanel();
@@ -91,7 +92,7 @@ public class ControlGraficos extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        for (int i = 0; i < cuphead.getDisparos(); i++) {
+        for (int i = indiceVacio; i < cuphead.getDisparos(); i++) {
             if (cuphead.getProyectiles()[i].esVisible()) {
                 //muevo el proyectil mientras sea visible
                 cuphead.getProyectiles()[i].mover();
@@ -100,6 +101,7 @@ public class ControlGraficos extends JPanel implements ActionListener {
                 //para ello dibujo el mismo rectangulo en diferente posicion
             } else {
                 cuphead.getProyectiles()[i] = null;
+                indiceVacio = i + 1;
                 int disparos = cuphead.getDisparos();
                 cuphead.setDisparos(disparos - 1);
             }
@@ -112,16 +114,17 @@ public class ControlGraficos extends JPanel implements ActionListener {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, 500, 500);
         cuphead.dibujarCuphead(g);
-            for (int i = 0; i < cuphead.getDisparos(); i++) {
+        for (int i = indiceVacio; i < cuphead.getDisparos(); i++) {
+            if (cuphead.getProyectiles()[i] == null) {
+            } else {
                 pr = cuphead.getProyectiles()[i];
-                int posX =  cuphead.getProyectiles()[i].getPosX();
-                int posY =  cuphead.getProyectiles()[i].getPosY();
+                int posX = cuphead.getProyectiles()[i].getPosX();
+                int posY = cuphead.getProyectiles()[i].getPosY();
                 //si se ha disparado, grafico los proyectiles
-                //estoy estableciendo mal la nueva posicion de cuphead
                 pr.dibujarProyectil(g, posX, posY);
+            }
+
         }
     }
-
-
 }
 

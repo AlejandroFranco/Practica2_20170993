@@ -32,6 +32,10 @@ public class Cuphead extends ObjetoJuego {
         return proyectiles;
     }
 
+    public void setProyectiles(Proyectil[] proyectiles) {
+        this.proyectiles = proyectiles;
+    }
+
     public int getPosX() {
         return posX;
     }
