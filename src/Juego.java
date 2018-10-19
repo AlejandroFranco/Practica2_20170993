@@ -1,8 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferStrategy;
 
-public class Juego {
+public class Juego implements  Runnable{
 
     private static JFrame ventanaJuego;
 
@@ -17,5 +16,8 @@ public class Juego {
         ventanaJuego.pack();
     }
 
+    @Override
+    public void run() {
 
+    }
 }

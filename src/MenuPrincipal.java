@@ -1,14 +1,11 @@
-
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.Arrays;
 
 public class MenuPrincipal {
+
     private  static FF fileFilter;
     private static JTextField movimientoAdelante;
     private static JTextField movimientoAtras;

@@ -22,7 +22,7 @@ public class Proyectil extends ObjetoJuego {
 
     public void mover() {
         if (posX > 500) {
-            visible = false;
+           visible = false;
         } else {
             posX += 5;
         }
@@ -52,7 +52,7 @@ public class Proyectil extends ObjetoJuego {
         this.posY = posY;
     }
 
-    public boolean isVisible() {
+    public boolean esVisible() {
         return visible;
     }
 

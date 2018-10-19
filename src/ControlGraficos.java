@@ -2,17 +2,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 public class ControlGraficos extends JPanel implements ActionListener {
 
-    private Proyectil[] proyectiles = new Proyectil[300];
-    private int indice = 0;
-    private int elementos = 0;
+    public static final int Ancho = 500;
+    public static final int Alto = Ancho;
+
+    private BufferedImage imagen = new BufferedImage(Ancho, Alto, BufferedImage.TYPE_INT_RGB);
+    private int[] pixeles = ((DataBufferInt) imagen.getRaster().getDataBuffer()).getData();
+    //private HojaFondo hojaFondo =  new HojaFondo("recursos/Escenario/fondo.png");
+
+    private Proyectil pr;
     private Cuphead cuphead = new Cuphead(300, 400);
     private boolean dibujarProyectil = false;
     private int posXPry;
     private int posYPry;
     private Timer t;
+
 
     public ControlGraficos() {
         JPanel p = new JPanel();
@@ -26,6 +34,7 @@ public class ControlGraficos extends JPanel implements ActionListener {
         getInputMap().put(KeyStroke.getKeyStroke("K"), "disparo");
         getActionMap().put("disparo", disparo);
         t = new Timer(1, this);
+        t.start();
     }
 
     Action moverDerecha = new AbstractAction() {
@@ -49,22 +58,11 @@ public class ControlGraficos extends JPanel implements ActionListener {
         }
     };
 
-    Action disparo = new AbstractAction() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            posXPry = cuphead.getPosX() + 1;
-            posYPry = cuphead.getPosY();
-            cuphead.disparar(posXPry, posYPry);
-            dibujarProyectil = true;
-            repaint();
-        }
-    };
-
     Action moverIzquierda = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
             //posicion actual de cuphead
-            //evita repetir7 la invocacion de los mismos metodos
+            //evita repetir la invocacion de los mismos metodos
             final int ACT_X = cuphead.getPosX();
             final int ACT_Y = cuphead.getPosY();
             final int ACT_ANCHO = cuphead.getAncho();
@@ -80,11 +78,26 @@ public class ControlGraficos extends JPanel implements ActionListener {
         }
     };
 
+
+    Action disparo = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //agrego el proyectil que disparo a un arreglo de proyectiles
+            //el disparo  siempre sale del frente de cuphead
+            cuphead.disparar();
+            dibujarProyectil = true;
+        }
+    };
+
     @Override
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < cuphead.getDisparos(); i++) {
-            if (cuphead.getProyectiles()[i].isVisible()) {
+            if (cuphead.getProyectiles()[i].esVisible()) {
+                //muevo el proyectil mientras sea visible
                 cuphead.getProyectiles()[i].mover();
+                //el proyectil tiene las nuevas coordenadas
+                //actualizo el rectangulo que le corresponde a ese proyectil/imagen,
+                //para ello dibujo el mismo rectangulo en diferente posicion
             } else {
                 cuphead.getProyectiles()[i] = null;
                 int disparos = cuphead.getDisparos();
@@ -99,12 +112,16 @@ public class ControlGraficos extends JPanel implements ActionListener {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, 500, 500);
         cuphead.dibujarCuphead(g);
-        if (dibujarProyectil) {
-            t.start();
             for (int i = 0; i < cuphead.getDisparos(); i++) {
-                cuphead.getProyectiles()[i].dibujarProyectil(g, posXPry, posYPry);
-            }
+                pr = cuphead.getProyectiles()[i];
+                int posX =  cuphead.getProyectiles()[i].getPosX();
+                int posY =  cuphead.getProyectiles()[i].getPosY();
+                //si se ha disparado, grafico los proyectiles
+                //estoy estableciendo mal la nueva posicion de cuphead
+                pr.dibujarProyectil(g, posX, posY);
         }
     }
+
+
 }
 

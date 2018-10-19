@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.*;
 
 public class Cuphead extends ObjetoJuego {
@@ -10,7 +9,6 @@ public class Cuphead extends ObjetoJuego {
     private Proyectil[] proyectiles;
     private int disparos = 0;
     private Proyectil proyectil;
-
     private Image img;
 
     public Cuphead(int x, int y) {
@@ -24,8 +22,8 @@ public class Cuphead extends ObjetoJuego {
         g.fillRect(posX, posY, ancho, alto);
     }
 
-    public void disparar(int x, int y) {
-        proyectil = new Proyectil((x + 60), (y + 60));
+    public void disparar() {
+        proyectil = new Proyectil((posX + 60), (posY));
         proyectiles[disparos] = proyectil;
         disparos++;
     }

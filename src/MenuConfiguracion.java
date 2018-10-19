@@ -1,7 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MenuConfiguracion {
+
     private static JFrame jFrame;
     private static JPanel jPanel;
     private static JLabel textoGrandeControles;
@@ -16,7 +19,6 @@ public class MenuConfiguracion {
     private static JButton botonCancelar;
     private static ImageIcon iconoCuphead;
     private static JLabel etiquetaPersonaje;
-
     private static JLabel etiquetaMovimientoAdelante;
     private static JLabel etiquetaMovimientoAtras;
     private static JLabel etiquetaSalto;
@@ -59,7 +61,6 @@ public class MenuConfiguracion {
         c.gridy = 1;
         jPanel.add(textoGrandeControles, c);
 
-
         etiquetaMovimientoAdelante.setText("Movimiento Adelante");
         c.gridx = 1;
         c.gridy = 2;
@@ -89,7 +90,6 @@ public class MenuConfiguracion {
         c.gridx = 2;
         c.gridy = 4;
         jPanel.add(campoSalto, c);
-
 
         etiquetaDisparo1.setText("Disparo 1");
         c.gridx = 1;
@@ -121,7 +121,6 @@ public class MenuConfiguracion {
         c.gridy = 7;
         jPanel.add(comboDisparo3, c);
 
-
         etiquetaDisparo4.setText("Disparo 4");
         c.gridx = 1;
         c.gridy = 8;
@@ -132,14 +131,13 @@ public class MenuConfiguracion {
         c.gridy = 8;
         jPanel.add(comboDisparo4, c);
 
-
         botonAceptar.setText("Aceptar");
         c.gridx = 1;
         c.gridy = 9;
         jPanel.add(botonAceptar, c);
 
-
         botonCancelar.setText("Cancelar");
+        botonCancelar.addMouseListener(new AdaptadorMouse());
         c.gridx = 2;
         c.gridy = 9;
         jPanel.add(botonCancelar, c);
@@ -148,9 +146,21 @@ public class MenuConfiguracion {
         jFrame.setVisible(true);
         jFrame.pack();
 
-
     }
 
+    private static class AdaptadorMouse extends MouseAdapter {
+        public void mouseClicked(MouseEvent e) {
+            if (e.getSource() == botonCancelar) {
+                jFrame.dispose();
+                MenuPrincipal.crearMenu();
+            } else if (e.getSource() == botonAceptar) {
+                //guardo la configuracion y cambio de pantalla
+                jFrame.dispose();
+                MenuPrincipal.crearMenu();
+            }
+        }
+
+    }
 }
 
 
